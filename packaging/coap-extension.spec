@@ -12,7 +12,7 @@ BuildRequires: python
 Requires: crosswalk
 
 %description
-Example Crosswalk Tizen extension.
+Crosswalk Tizen extension for libCoAp.
 
 %prep
 %setup -q
