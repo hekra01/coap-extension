@@ -1,11 +1,11 @@
 Name:     coap-extension
 Version:  0.1
 Release:  1
-Summary:  Example Crosswalk Tizen extension
+Summary:  Crosswalk Tizen extension for libCoAP
 Group:    System/Libraries
 
-License:    BSD-3-Clause
-URL:      https://crosswalk-project.org/
+License:  Apache v2.0 
+URL:      https://github.com/cisco-open-source/coap-extension
 Source0:  %{name}-%{version}.tar.gz
 
 BuildRequires: python
