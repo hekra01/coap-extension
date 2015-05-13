@@ -10,6 +10,7 @@ Source0:  %{name}-%{version}.tar.gz
 
 BuildRequires: python
 Requires: crosswalk
+Requires: libcoap
 
 %description
 Crosswalk Tizen extension for libCoAp.
