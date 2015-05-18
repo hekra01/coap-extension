@@ -20,5 +20,7 @@ After installing coap-extension-demo-0.1-1.noarch rpm, launch the demo applicati
 ``` shell
 $ xwalk-launcher file:///usr/share/demos/coap-extension-demo/index.html
 ```
+
 This application can be used to control an Arduino
+![alt tag](https://github.com/cisco-open-source/coap-extension/wiki/images/test.png)
 
