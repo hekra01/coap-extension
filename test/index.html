@@ -11,15 +11,17 @@ body {
 </style>
 </head>
 <body>
-  <video autoplay width="100%" height="100%">
-  <!--
-      <source src="/usr/share/media/videos/AmazingNature_480p.mp4#t=0,20" type="video/mp4">
-	  -->
-      <source src="./madmen.ogv#t=0,10" type="video/ogg">
+  <video autoplay loop width="100%" height="100%">
+      <source src="/usr/share/media/videos/AmazingNature_480p.mp4" type="video/mp4">
   </video>
   <div class="coap-app">
 
     <div class="coap-sensors">
+      <div class="coap-sensor" id="empty">
+        <span class="coap-sensor-name" id="currentdatetime">&nbsp;</span>
+        <span class="coap-sensor-desc">&nbsp;</span>
+        <span class="coap-sensor-state">&nbsp;</span>
+      </div>
       <div class="coap-sensor" id="b1">
         <span class="coap-sensor-pic">
           <img id="b1_img" src="" data_on="resources/cooktop_on.jpg" data_off="resources/cooktop_off.jpg">
@@ -28,6 +30,24 @@ body {
         <span class="coap-sensor-desc">Kitchen</span>
         <span class="coap-sensor-state" id="b1_state">0</span>
       </div>
+	  <!--
+      <div class="coap-sensor" id="b2">
+        <span class="coap-sensor-pic">
+          <img src="resources/medecine.jpg">
+        </span>
+        <span class="coap-sensor-name">Take Medecine</span>
+        <span class="coap-sensor-desc">Health</span>
+        <span class="coap-sensor-state" id="b2_state">0</span>
+      </div>
+      <div class="coap-sensor" id="b3">
+        <span class="coap-sensor-pic">
+          <img src="resources/call.jpg">
+        </span>
+        <span class="coap-sensor-name">Call Daddy</span>
+        <span class="coap-sensor-desc">Reminder</span>
+        <span class="coap-sensor-state" id="">0</span>
+      </div>
+	  -->
       <div class="coap-sensor" id="mailbox">
         <span class="coap-sensor-pic">
           <img src="resources/mailbox.png">
@@ -78,7 +98,7 @@ body {
 
 
       <div class="coap-sensor">
-      <input type="text" id="serveraddr" value="coap://10.60.61.23" size="18" height="20px">
+      <input type="text" id="serveraddr" value="coap://172.21.122.78" size="18" height="20px">
       </div>
 
     </div>
@@ -99,7 +119,7 @@ body {
         </span>
         <span class="coap-device-name">Light2</span>
         <span class="coap-device-desc">Kitchen</span>
-        <span class="coap-device-state" id="l2_state">0</span>
+        <span class="coap-device-state" id="l2_state">1</span>
         <button class="coap-device-button" onclick="onclickbutton(id)" id="l2" >On/Off</button>
       </div>    
       <div class="coap-device" id="l3">
@@ -108,7 +128,7 @@ body {
         </span>
         <span class="coap-device-name">Light3</span>
         <span class="coap-device-desc">Living room</span>
-        <span class="coap-device-state" id="l3_state">0</span>
+        <span class="coap-device-state" id="l3_state">1</span>
         <button class="coap-device-button" onclick="onclickbutton(id)" id="l3">On/Off</button>
       </div>
       <div class="coap-device" id="l4">
@@ -117,7 +137,7 @@ body {
         </span>
         <span class="coap-device-name">PushLight4</span>
         <span class="coap-device-desc">Room</span>
-        <span class="coap-device-state" id="l4_state">0</span>
+        <span class="coap-device-state" id="l4_state">1</span>
         <button class="coap-device-button" onclick="onclickbutton(id)" id="l4">On/Off</button>
       </div>
       <div class="coap-device" id="l5">
@@ -126,8 +146,17 @@ body {
         </span>
         <span class="coap-device-name">PushLight5</span>
         <span class="coap-device-desc">Garden</span>
-        <span class="coap-device-state" id="l5_state">0</span>
+        <span class="coap-device-state" id="l5_state">1</span>
         <button class="coap-device-button" onclick="onclickbutton(id)" id="l5">On/Off</button>
+      </div>
+      <div class="coap-device" id="relai">
+        <span class="coap-device-pic">
+          <img src="resources/heater.jpg">
+        </span>
+        <span class="coap-device-name">Heater</span>
+        <span class="coap-device-desc">Home</span>
+        <span class="coap-device-state" id="relai_state">1</span>
+        <button class="coap-device-button" onclick="onclickbutton(id)" id="relai">On/Off</button>
       </div>
       <div class="coap-device" id="servo">
         <span class="coap-device-pic">
@@ -135,7 +164,7 @@ body {
         </span>
         <span class="coap-device-name">Window blind</span>
         <span class="coap-device-desc">Living room</span>
-        <span class="coap-device-state" id="servo_state">0</span>
+        <span class="coap-device-state" id="servo_state">1</span>
         <button class="coap-device-button" onclick="onclickbutton(id)" id="servo" >On/Off</button>
       </div>
 
@@ -165,46 +194,29 @@ body {
 <!--
 <button id="button_setLight"  onclick="onclickbutton()" > 
     SetLightl</button>
-
 <div id="out"></div>
 -->
 
 
 <script>
-
-
-
 var lightList = ["l1", "l2", "l3", "l4", "l5"];
 var sensorList = ["T", "D", "M", "L"];
 var deviceIP = "coap://224.0.1.187";
 var deviceState = {};
-
-
-
 var div = document.getElementById('out');
-
 var p1 = document.createElement('p');
 var p2 = document.createElement('p');
 var p3 = document.createElement('p');
-
-
-
 var l1 = document.createElement('p');
-
-
 function getServerAddr(){
-
     newAddr = document.getElementById("serveraddr").value;
     if (newAddr != "")
     {
         deviceIP = newAddr;
     }
-
     return deviceIP;
 }
-
 function getDeviceState(id){
-
   // Skip first line
   var response;
   response = coap.getDeviceSync(getServerAddr(), id); // SYNC
@@ -215,19 +227,15 @@ function getDeviceState(id){
    });
 */
   var responseArray = response.split('\n');
-
   var value = "";
   if (responseArray.length >= 2)
   {
       value = responseArray[1];
       deviceState[id] = value;
   }
-
   return value;
 }
-
 function updatedeviceimage(id, currentState){
-
   var imageIdObj = document.getElementById(id + "_img");
   if (imageIdObj)
   {
@@ -241,35 +249,23 @@ function updatedeviceimage(id, currentState){
   {
     imagetochange = imageon;
   }
-
   imageIdObj.src = imagetochange;
   }
 }
-
 function getandupdatedeviceimage(id){
-
   var currentState = getDeviceState(id);
   updatedeviceimage(id, currentState);
 }
-
-
 function updatedevicestate(id){
-
   var currentState = getDeviceState(id);
   var deviceObj = document.getElementById(id + "_state");
   if (deviceObj)
   {
      deviceObj.innerHTML = currentState;
   }
-
   return currentState;
 }
-
-
-
-
 function onclickbuttonlogo(id){
-
   var docObj = document.getElementById("coap-devices");
   if (docObj)
   {
@@ -279,19 +275,13 @@ function onclickbuttonlogo(id){
     else
       docObj.style.display = 'block';
   }
-
 }
-
-
-
 function onclickbutton(id){
-
     // Toggle state
     if (id != "servo")
     {
       var currentState = 0;
       var desiredState = 0;
-
       currentState = deviceState[id]; //getDeviceState(id);
       if (currentState == 0)
       {
@@ -301,18 +291,14 @@ function onclickbutton(id){
       {
         desiredState = 0;
       }
-
       deviceState[id] = desiredState;
-
       updatedeviceimage(id, desiredState);
-
       coap.setDevice(getServerAddr(), id, desiredState);
     }
     else if (id == "servo")
     {
       var currentState = 0;
       var desiredState = 0;
-
       currentState = deviceState[id]; //getDeviceState(id);
       if (currentState == 90)
       {
@@ -322,20 +308,29 @@ function onclickbutton(id){
       {
         desiredState = 90;
       }
-
       deviceState[id] = desiredState;
-
       //desiredState = (parseInt(currentState) + 90) % 360;
-
       coap.setDevice(getServerAddr(), id, desiredState);
     }
 }
-
 function getSensorsState(){
-
     var value;
     var i;
-
+/*
+    for(i = 0; i < sensorList.length; i++)
+    {
+        updatedevicestate(sensorList[i]);
+    }
+    var currentState = updatedevicestate("b1");
+    updatedeviceimage("b1", currentState);
+    updatedevicestate("b2");
+    currentState = updatedevicestate("l4");
+    updatedeviceimage("l4", currentState);
+    currentState = updatedevicestate("l5");
+    updatedeviceimage("l5", currentState);
+    updatedevicestate("relai");
+    updatedevicestate("servo");
+*/
     var currentAllStates = getDeviceState("alldevices");
     var allDevicesArray = currentAllStates.split(";");
     for (var i = 0; i < allDevicesArray.length; i++)
@@ -352,70 +347,43 @@ function getSensorsState(){
            {
                deviceObj.innerHTML = currentState;
            }
-
            deviceState[id] = currentState;
         }
     }
-
     updatedeviceimage("l1", deviceState["l1"]);
     updatedeviceimage("l2", deviceState["l2"]);
     updatedeviceimage("l3", deviceState["l3"]);
     updatedeviceimage("l4", deviceState["l4"]);
     updatedeviceimage("l5", deviceState["l5"]);
-
     updatedeviceimage("b1", deviceState["b1"]);
     updatedeviceimage("b2", deviceState["b2"]);
-
     var now = new Date().toLocaleString();
     //now.format("dd/MM/yyyy hh:MM TT");
     var deviceObj = document.getElementById("currentdatetime");
     deviceObj.innerHTML = now;
     //deviceObj.innerHTML = deviceState["l5"]; //allDevicesArray.length.toString();
 }
-
-
 var pollingdelay = 1000;
-
 var pollingfunction = function(){
-
     getSensorsState();
     setTimeout(pollingfunction, pollingdelay);
 }
-
 function applicationinit(){
-
     pollingfunction();
 }
-
-
-
-
 applicationinit()
-
-
-
 /*
-// async call to extension
+// async call to extensionfTake
 coap.echoAsync('hello async echo', function (result) {
   p1.innerText = result;
   div.appendChild(p1);
 });
-
 // sync call to extension
 p2.innerText = coap.echoSync('hello sync echo');
 div.appendChild(p2);
-
 p3.innerText = coap.setLight('devicename', 1);
 div.appendChild(p3);
-
-
-
-
 */
-
-
 </script>
 </body>
 </html>
-
-
