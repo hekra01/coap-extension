@@ -78,7 +78,7 @@ body {
 
 
       <div class="coap-sensor">
-      <input type="text" id="serveraddr" value="coap://172.21.122.78" size="18" height="20px">
+      <input type="text" id="serveraddr" value="coap://10.60.61.23" size="18" height="20px">
       </div>
 
     </div>
@@ -99,7 +99,7 @@ body {
         </span>
         <span class="coap-device-name">Light2</span>
         <span class="coap-device-desc">Kitchen</span>
-        <span class="coap-device-state" id="l2_state">1</span>
+        <span class="coap-device-state" id="l2_state">0</span>
         <button class="coap-device-button" onclick="onclickbutton(id)" id="l2" >On/Off</button>
       </div>    
       <div class="coap-device" id="l3">
@@ -108,7 +108,7 @@ body {
         </span>
         <span class="coap-device-name">Light3</span>
         <span class="coap-device-desc">Living room</span>
-        <span class="coap-device-state" id="l3_state">1</span>
+        <span class="coap-device-state" id="l3_state">0</span>
         <button class="coap-device-button" onclick="onclickbutton(id)" id="l3">On/Off</button>
       </div>
       <div class="coap-device" id="l4">
@@ -117,7 +117,7 @@ body {
         </span>
         <span class="coap-device-name">PushLight4</span>
         <span class="coap-device-desc">Room</span>
-        <span class="coap-device-state" id="l4_state">1</span>
+        <span class="coap-device-state" id="l4_state">0</span>
         <button class="coap-device-button" onclick="onclickbutton(id)" id="l4">On/Off</button>
       </div>
       <div class="coap-device" id="l5">
@@ -126,7 +126,7 @@ body {
         </span>
         <span class="coap-device-name">PushLight5</span>
         <span class="coap-device-desc">Garden</span>
-        <span class="coap-device-state" id="l5_state">1</span>
+        <span class="coap-device-state" id="l5_state">0</span>
         <button class="coap-device-button" onclick="onclickbutton(id)" id="l5">On/Off</button>
       </div>
       <div class="coap-device" id="servo">
@@ -135,7 +135,7 @@ body {
         </span>
         <span class="coap-device-name">Window blind</span>
         <span class="coap-device-desc">Living room</span>
-        <span class="coap-device-state" id="servo_state">1</span>
+        <span class="coap-device-state" id="servo_state">0</span>
         <button class="coap-device-button" onclick="onclickbutton(id)" id="servo" >On/Off</button>
       </div>
 
@@ -335,25 +335,6 @@ function getSensorsState(){
 
     var value;
     var i;
-/*
-    for(i = 0; i < sensorList.length; i++)
-    {
-        updatedevicestate(sensorList[i]);
-    }
-
-    var currentState = updatedevicestate("b1");
-    updatedeviceimage("b1", currentState);
-    updatedevicestate("b2");
-
-
-    currentState = updatedevicestate("l4");
-    updatedeviceimage("l4", currentState);
-    currentState = updatedevicestate("l5");
-    updatedeviceimage("l5", currentState);
-
-    updatedevicestate("relai");
-    updatedevicestate("servo");
-*/
 
     var currentAllStates = getDeviceState("alldevices");
     var allDevicesArray = currentAllStates.split(";");
