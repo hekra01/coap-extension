@@ -101,7 +101,7 @@ std::string executeLinuxCmd(const char *linuxCommand)
 
 
 std::string commandCmdPath = "/usr/lib/examples/./coap-client";
-std::string commandCmdParams = " -B 2"; // Break 2s
+std::string commandCmdParams = " -B 2 -p 5683"; // Break 2s + listening on 5683 for ACK
 std::string deviceIP = "coap://224.0.1.187";
 
 

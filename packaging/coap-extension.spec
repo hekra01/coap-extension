@@ -35,6 +35,8 @@ make %{?_smp_mflags}
 make install DESTDIR=%{buildroot} PREFIX=%{_prefix}
 mkdir -p %{buildroot}/usr/share/demos/coap-extension-demo/
 cp -rf test/* %{buildroot}/usr/share/demos/coap-extension-demo/
+cp -rf *.xpk %{buildroot}/usr/share/demos/coap-extension-demo/
+
 
 %files
 %{_prefix}/lib/tizen-extensions-crosswalk/libcoap-extension.so
