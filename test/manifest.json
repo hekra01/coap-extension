@@ -1,14 +1,15 @@
 {
   "name": "coap-extension-demo",
   "xwalk_version": "0.0.0.1",
-  "start_url": "index.html",
-  "display": "fullscreen",
-  "icons": [
-    {
-      "src": "icon.png",
-      "sizes": "128x128",
-      "type": "image/png"
-    }
-  ]
+  "app": {
+      "launch": {
+          "container": "panel",
+          "local_path": "index.html"
+      }
+  },
+  "description": "coap-extension-demo",
+  "icons": {
+      "128": "icon.png"
+  }
 }
 
