@@ -22,7 +22,7 @@ $ xwalk-launcher file:///usr/share/demos/coap-extension-demo/index.html
 ```
 The demo application has been packaged with:
 ```shell
-$ openssl genrsa -out tools/mykey.pem 1024openssl genrsa -out tools/mykey.pem 1024
+$ openssl genrsa -out tools/mykey.pem 1024
 $ ./make_xpk.sh test/ tools/mykey.pem xwalk-coap-extension-demo
 ```
 To install and launch
