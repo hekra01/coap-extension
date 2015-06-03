@@ -15,14 +15,18 @@ Requires: libcoap
 %description
 Crosswalk Tizen extension for libCoAp.
 
-%package -n 	coap-extension-demo
+%package	demo
+%define 	_demodir	%{_datadir}/widget_demo
 Summary: 	Demo app using CrossXalk coap extension
 Group:          Applications/Multimedia
 Provides:       coap-extension-demo
 Requires:       coap-extension
 BuildArch:      noarch
+BuildRequires: 	pkgconfig(openssl)
+BuildRequires: 	zip
+BuildRequires: 	vim-base
 
-%description -n coap-extension-demo
+%description	demo
 %{summary}.
 
 %prep
@@ -33,13 +37,12 @@ make %{?_smp_mflags}
 
 %install
 make install DESTDIR=%{buildroot} PREFIX=%{_prefix}
-mkdir -p %{buildroot}/usr/share/demos/coap-extension-demo/
-cp -rf test/* %{buildroot}/usr/share/demos/coap-extension-demo/
-cp -rf *.xpk %{buildroot}/usr/share/demos/coap-extension-demo/
+ln -sr %{buildroot}%{_demodir}/xwalk-coap-extension-demo.xpk %{buildroot}%{_demodir}/xwalk-coap-extension-demo.wgt
 
 
 %files
 %{_prefix}/lib/tizen-extensions-crosswalk/libcoap-extension.so
 
-%files -n coap-extension-demo
-/usr/share/demos/coap-extension-demo/
+%files		demo
+%{_demodir}/xwalk-coap-extension-demo.xpk
+%{_demodir}/xwalk-coap-extension-demo.wgt
