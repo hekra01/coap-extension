@@ -26,7 +26,7 @@ guest# xwalk-launcher xwalk.<appid>
 ```
 To uninstall:
 ```shell
-guest# "pkgcmd -u -t xpk -q -n <appid>
+guest# pkgcmd -u -t xpk -q -n <appid>
 ```
 Demo video here: http://cisco-open-source.github.io/coap-extension/index.html
 
