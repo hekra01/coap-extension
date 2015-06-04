@@ -16,24 +16,17 @@ This will create 2 rpms
 zypper in the rpms 
 
 # Demo application
-After installing coap-extension-demo-0.1-1.noarch rpm, launch the demo XPK application:
+Install coap-extension-demo-0.1-1.noarch.rpm to get the demo xpk
 ```shell
-$ xwalk-launcher file:///usr/share/demos/coap-extension-demo/index.html
-```
-The demo application has been packaged with:
-```shell
-$ openssl genrsa -out tools/mykey.pem 1024
-$ ./make_xpk.sh test/ tools/mykey.pem xwalk-coap-extension-demo
-```
-To install and launch
-```shell
-$ su - guest -c "/usr/bin/pkgcmd -i -q -t xpk -p /usr/share/demos/coap-extension-demo/xwalk-coap-extension-demo.xpk"
-$ ail_list
-$ xwalk-launcher xwalk.<APPID>
+root# zypper in coap-extension-demo
+root# su - guest
+guest# pkgcmd -i -t xpk -q -p /usr/share/widget_demo/xwalk-coap-extension-demo.xpk
+guest# ail_list
+guest# xwalk-launcher xwalk.<appid>
 ```
 To uninstall:
 ```shell
-$ su - guest -c "/usr/bin/pkgcmd -u -t xpk -q <appid>
+guest# "pkgcmd -u -t xpk -q -n <appid>
 ```
-Demo video available here: http://cisco-open-source.github.io/coap-extension/index.html
+Demo video here: http://cisco-open-source.github.io/coap-extension/index.html
 
