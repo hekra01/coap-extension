@@ -37,8 +37,6 @@ make %{?_smp_mflags}
 
 %install
 make install DESTDIR=%{buildroot} PREFIX=%{_prefix}
-ln -sr %{buildroot}%{_demodir}/xwalk-coap-extension-demo.xpk %{buildroot}%{_demodir}/xwalk-coap-extension-demo.wgt
-
 
 %files
 %{_prefix}/lib/tizen-extensions-crosswalk/libcoap-extension.so
