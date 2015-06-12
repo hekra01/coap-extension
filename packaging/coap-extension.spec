@@ -43,3 +43,4 @@ make install DESTDIR=%{buildroot} PREFIX=%{_prefix}
 
 %files		demo
 %{_demodir}/xwalk-coap-extension-demo.xpk
+

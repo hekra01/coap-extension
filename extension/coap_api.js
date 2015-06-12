@@ -19,6 +19,8 @@
 **
 ****************************************************************************/
 var coapListener = null;
+var coapDefaultCmdPath = "/usr/lib/examples/./coap-client";
+var coapDefaultCmdParams = "-B 2 -p 5683";
 
 extension.setMessageListener(function(msg) {
   if (coapListener instanceof Function) {
@@ -26,64 +28,54 @@ extension.setMessageListener(function(msg) {
   };
 });
 
-exports.echoAsync = function (msg, callback) {
+exports.handleMessageAsync = function(msg, callback) {
   coapListener = callback;
   extension.postMessage(msg);
 };
 
-exports.echoSync = function (msg) {
-  console.log("echoSync");
+exports.handleMessageSync = function(msg) {
   return extension.internal.sendSyncMessage(msg);
 };
 
+exports.initCommandsAndParams = function(cmdPath, cmdDefaultParams) {
+    coapDefaultCmdPath = cmdPath;
+    coapDefaultCmdParams = cmdDefaultParams;
+};
+
+exports.executeCommmand = function(cmdPath, cmdParams) {
+
+  var msg = {
+    'cmd': 'ExecuteCommand',
+    'path': cmdPath,
+    'params': cmdParams
+  };
+
+  console.log("executeCommmand " + msg);
+
+  var result = extension.internal.sendSyncMessage(JSON.stringify(msg));
+
+  return result;
+};
+
 exports.setDevice = function(destaddr, devicename, state, callback) {
-  console.log("setDevice");
   coapListener = callback;
 
-  var options = {
-    dest: destaddr,
-    cmd: "put",
-    resource: devicename,
-    value: state
-  };
+  var params = coapDefaultCmdParams + " -e " + "\"" + state + "\"" + " -m put " + destaddr + "/" + devicename;
 
-  //var message = JSON.stringify(options);
-  var message = destaddr + ";" + "put;"+ devicename + ";" + state;
+  console.log("setDevice " + params);
 
-  //return extension.internal.sendSyncMessage(message); // SYNC
-  extension.postMessage(message); // ASYNC
+  coap.executeCommmand(coapDefaultCmdPath, params);
 };
 
-exports.getDevice = function(destaddr, devicename, callback) {
-  console.log("getDevice");
-  coapListener = callback;
+exports.getDevice = function(destaddr, devicename) {
 
-  var options = {
-    dest: destaddr,
-    cmd: "get",
-    resource: devicename
-  };
+  var params = coapDefaultCmdParams + " -m get " + destaddr + "/" + devicename;
 
-  //var message = JSON.stringify(options);
-  var message = destaddr + ";" + "get;"+ devicename + ";";
+  console.log("getDevice " + params);
 
-  extension.postMessage(message); // ASYNC
+  return coap.executeCommmand(coapDefaultCmdPath, params);
 };
 
-exports.getDeviceSync = function(destaddr, devicename) {
-  console.log("getDeviceSync");
- 
-  var options = {
-    dest: destaddr,
-    cmd: "get",
-    resource: devicename
-  };
-
-  //var message = JSON.stringify(options);
-  var message = destaddr + ";" + "get;"+ devicename + ";";
-
-  return extension.internal.sendSyncMessage(message); // SYNC
-};
 
 
 

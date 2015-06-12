@@ -23,17 +23,12 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-
-#include <vector>
-#include <sstream>
 #include <string>
-
 
 
 char *pDebugEnv = NULL;
 
 CoapInstance::CoapInstance() {
-
     pDebugEnv = getenv("COAP_DEBUG");
 }
 
@@ -50,24 +45,7 @@ void CoapInstance::HandleSyncMessage(const char* message) {
   SendSyncReply(resp.c_str());
 }
 
-
-std::vector<std::string> splitstdstring(const std::string &inputstring, char delimiter)
-{
-    //printf("splitstdstring: %s\n", inputstring.c_str());
-
-    std::vector<std::string> elements;
-    std::string word;
-    std::stringstream inputstream(inputstring);
-
-    while( getline(inputstream, word, delimiter))
-        elements.push_back(word);
-
-    return elements;
-}
-
-
-
-std::string executeLinuxCmd(const char *linuxCommand)
+static std::string executeLinuxCmd(const char *linuxCommand)
 {
   FILE *pFile = NULL;
 
@@ -99,64 +77,42 @@ std::string executeLinuxCmd(const char *linuxCommand)
   return reponse;
 }
 
+std::string CoapInstance::ExecuteCommand(const picojson::value& msg) const {
 
-std::string commandCmdPath = "/usr/lib/examples/./coap-client";
-std::string commandCmdParams = " -B 2 -p 5683"; // Break 2s + listening on 5683 for ACK
-std::string deviceIP = "coap://224.0.1.187";
+  std::string commandPath   = msg.get("path").to_str();
+  std::string commandParams = msg.get("params").to_str();
+  std::string fullCommand = commandPath + " " + commandParams;
 
+  std::string reponse = executeLinuxCmd(fullCommand.c_str());
 
-std::string CoapInstance::PrepareMessage(std::string msg) const {
+  return reponse;
+}
+
+std::string CoapInstance::PrepareMessage(const std::string & message) const {
+
+  const char *msg = message.c_str();
+  std::string resp = "";
 
   if (pDebugEnv != NULL)
-    printf("CoapInstance::PrepareMessage: %s\n", msg.c_str());
+    printf("CoapInstance::PrepareMessage: %s\n", msg);
 
-  unsigned int i;
-  std::vector<std::string> params = splitstdstring(msg, ';');
+  picojson::value v;
+  std::string error;
 
-  if (params.size())
-  {
-      for(i = 0; i < params.size(); i++)
-      {
-          //printf("param[%d]=%s\n", i, params[i].c_str());
-      }
-
-      if (params.size() >= 4)
-      {
-          deviceIP = params[0];
-
-          if (params[1] == "put")
-          {
-              std::string deviceString = params[2];
-              std::string stateString = params[3];
-
-              std::string command = commandCmdPath + commandCmdParams + " -e " +  stateString + " -m put " + deviceIP +"/" + deviceString;
-              executeLinuxCmd(command.c_str());
-          }
-          else if (params[1] == "get")
-          {
-              std::string deviceString = params[2];
-
-              std::string command = commandCmdPath + commandCmdParams + " " + deviceIP + "/" + deviceString;
-              std::string reponse = executeLinuxCmd(command.c_str());
-              return reponse;   
-          }
-      }
-      else if (params.size() >= 3)
-      {
-          deviceIP = params[0];
-
-          if (params[1] == "get")
-          {
-              std::string deviceString = params[2];
-
-              std::string command = commandCmdPath + commandCmdParams + " " + deviceIP + "/" + deviceString;
-              std::string reponse = executeLinuxCmd(command.c_str());
-              return reponse;
-          }
-      }
+  picojson::parse(v, msg, msg + strlen(msg), &error);
+  if (!error.empty()) {
+    std::cout << "Ignoring message.\n";
+    return resp;
   }
 
+  std::string cmd = v.get("cmd").to_str();
+  
 
-  return "You said: " + msg;
+  if (cmd == "ExecuteCommand")
+  {
+      resp = ExecuteCommand(v);
+  }
+
+  return resp;
 }
 

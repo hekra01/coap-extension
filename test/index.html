@@ -98,7 +98,7 @@ body {
 
 
       <div class="coap-sensor">
-      <input type="text" id="serveraddr" value="coap://172.21.122.78" size="18" height="20px">
+      <input type="text" id="serveraddr" value="coap://172.21.122.73" size="18" height="20px">
       </div>
 
     </div>
@@ -122,14 +122,14 @@ body {
         <span class="coap-device-state" id="l2_state">1</span>
         <button class="coap-device-button" onclick="onclickbutton(id)" id="l2" >On/Off</button>
       </div>    
-      <div class="coap-device" id="l3">
+      <div class="coap-device" id="step">
         <span class="coap-device-pic">
-          <img id="l3_img" src="" data_on="resources/lightbulb_on.jpg" data_off="resources/lightbulb_off.jpg">
+          <img src="resources/windowblind_on.png">
         </span>
-        <span class="coap-device-name">Light3</span>
-        <span class="coap-device-desc">Living room</span>
-        <span class="coap-device-state" id="l3_state">1</span>
-        <button class="coap-device-button" onclick="onclickbutton(id)" id="l3">On/Off</button>
+        <span class="coap-device-name">Stepper</span>
+        <span class="coap-device-desc">Kitchen</span>
+        <span class="coap-device-state" id="step_state">1</span>
+        <button class="coap-device-button" onclick="onclickbutton(id)" id="step">On/Off</button>
       </div>
       <div class="coap-device" id="l4">
         <span class="coap-device-pic">
@@ -219,7 +219,7 @@ function getServerAddr(){
 function getDeviceState(id){
   // Skip first line
   var response;
-  response = coap.getDeviceSync(getServerAddr(), id); // SYNC
+  response = coap.getDevice(getServerAddr(), id); // SYNC
 /*
   // ASYNC call
   coap.getDevice(getServerAddr(), id, function (result) {
@@ -251,6 +251,12 @@ function updatedeviceimage(id, currentState){
   }
   imageIdObj.src = imagetochange;
   }
+
+  var deviceObj = document.getElementById(id + "_state");
+  if (deviceObj)
+  {
+     deviceObj.innerHTML = currentState;
+  }
 }
 function getandupdatedeviceimage(id){
   var currentState = getDeviceState(id);
@@ -278,7 +284,7 @@ function onclickbuttonlogo(id){
 }
 function onclickbutton(id){
     // Toggle state
-    if (id != "servo")
+    if ((id != "servo") && (id != "step"))
     {
       var currentState = 0;
       var desiredState = 0;
@@ -310,6 +316,30 @@ function onclickbutton(id){
       }
       deviceState[id] = desiredState;
       //desiredState = (parseInt(currentState) + 90) % 360;
+      coap.setDevice(getServerAddr(), id, desiredState);
+    }
+    else if (id == "step")
+    {
+      var currentState = 0;
+      var desiredState = 0;
+      currentState = deviceState[id]; //getDeviceState(id);
+      if (currentState == 512)
+      {
+        desiredState = -512;
+      }
+      else
+      {
+        desiredState = 512;
+      }
+      deviceState[id] = desiredState;
+      //desiredState = (parseInt(currentState) + 90) % 360;
+
+      var deviceObj = document.getElementById(id + "_state");
+      if (deviceObj)
+      {
+         deviceObj.innerHTML = desiredState;
+      }
+
       coap.setDevice(getServerAddr(), id, desiredState);
     }
 }
@@ -352,11 +382,14 @@ function getSensorsState(){
     }
     updatedeviceimage("l1", deviceState["l1"]);
     updatedeviceimage("l2", deviceState["l2"]);
-    updatedeviceimage("l3", deviceState["l3"]);
+    //updatedeviceimage("l3", deviceState["l3"]);
     updatedeviceimage("l4", deviceState["l4"]);
     updatedeviceimage("l5", deviceState["l5"]);
     updatedeviceimage("b1", deviceState["b1"]);
     updatedeviceimage("b2", deviceState["b2"]);
+
+    getandupdatedeviceimage("step", deviceState["step"]);
+
     var now = new Date().toLocaleString();
     //now.format("dd/MM/yyyy hh:MM TT");
     var deviceObj = document.getElementById("currentdatetime");
@@ -368,22 +401,15 @@ var pollingfunction = function(){
     getSensorsState();
     setTimeout(pollingfunction, pollingdelay);
 }
+
 function applicationinit(){
+    coap.initCommandsAndParams("/usr/lib/examples/./coap-client", "-B 2 -p 5683");
+    coap.setDevice(getServerAddr(), "servo", 90);
     pollingfunction();
 }
 applicationinit()
-/*
-// async call to extensionfTake
-coap.echoAsync('hello async echo', function (result) {
-  p1.innerText = result;
-  div.appendChild(p1);
-});
-// sync call to extension
-p2.innerText = coap.echoSync('hello sync echo');
-div.appendChild(p2);
-p3.innerText = coap.setLight('devicename', 1);
-div.appendChild(p3);
-*/
+
+
 </script>
 </body>
 </html>

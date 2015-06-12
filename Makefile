@@ -8,16 +8,16 @@ coap_api.cc:
 
 libcoap-extension.so: prepare coap_api.cc
 	$(CC) $(COAP_CFLAGS) -shared -o build/libcoap-extension.so \
-     $(SYSROOT_FLAGS) -I./ $(SOURCES)
+	$(SYSROOT_FLAGS) -I./ $(SOURCES)
 
 prepare:
 	mkdir -p build
 
 install: libcoap-extension.so
 	install -D build/libcoap-extension.so \
-     $(DESTDIR)/$(PREFIX)/lib/tizen-extensions-crosswalk/libcoap-extension.so
+	$(DESTDIR)/$(PREFIX)/lib/tizen-extensions-crosswalk/libcoap-extension.so
 	install -D build/xwalk-coap-extension-demo.xpk \
-     $(DESTDIR)/$(PREFIX)/share/widget_demo/xwalk-coap-extension-demo.xpk
+	$(DESTDIR)/$(PREFIX)/share/widget_demo/xwalk-coap-extension-demo.xpk
 
 clean:
 	rm -Rf build

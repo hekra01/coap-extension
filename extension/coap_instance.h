@@ -24,6 +24,7 @@
 #include <string>
 
 #include "common/extension.h"
+#include "common/picojson.h"
 
 class CoapInstance : public common::Instance {
  public:
@@ -34,9 +35,11 @@ class CoapInstance : public common::Instance {
   void HandleMessage(const char* message);
   void HandleSyncMessage(const char* message);
 
- private:
-  std::string PrepareMessage(std::string msg) const;
+  std::string ExecuteCommand(const picojson::value& msg) const;
+
+  private:
+    std::string PrepareMessage(const std::string & message) const;
 };
 
-#endif  // ECHO_INSTANCE_H_
+#endif  // COAP_INSTANCE_H_
 
