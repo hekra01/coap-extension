@@ -15,46 +15,14 @@ body {
       <source src="file:///usr/share/media/videos/AmazingNature_480p.mp4#t=0,15" type="video/mp4">
   </video>
   <div class="coap-app">
-
     <div class="coap-sensors">
       <div class="coap-sensor" id="empty">
         <span class="coap-sensor-name" id="currentdatetime">&nbsp;</span>
         <span class="coap-sensor-desc">&nbsp;</span>
         <span class="coap-sensor-state">&nbsp;</span>
       </div>
-      <div class="coap-sensor" id="b1">
-        <span class="coap-sensor-pic">
-          <img id="b1_img" src="" data_on="resources/cooktop_on.jpg" data_off="resources/cooktop_off.jpg">
-        </span>
-        <span class="coap-sensor-name">Cooktop</span>
-        <span class="coap-sensor-desc">Kitchen</span>
-        <span class="coap-sensor-state" id="b1_state">0</span>
-      </div>
-	  <!--
-      <div class="coap-sensor" id="b2">
-        <span class="coap-sensor-pic">
-          <img src="resources/medecine.jpg">
-        </span>
-        <span class="coap-sensor-name">Take Medecine</span>
-        <span class="coap-sensor-desc">Health</span>
-        <span class="coap-sensor-state" id="b2_state">0</span>
-      </div>
-      <div class="coap-sensor" id="b3">
-        <span class="coap-sensor-pic">
-          <img src="resources/call.jpg">
-        </span>
-        <span class="coap-sensor-name">Call Daddy</span>
-        <span class="coap-sensor-desc">Reminder</span>
-        <span class="coap-sensor-state" id="">0</span>
-      </div>
-	  -->
-      <div class="coap-sensor" id="mailbox">
-        <span class="coap-sensor-pic">
-          <img src="resources/mailbox.png">
-        </span>
-        <span class="coap-sensor-name">Mail box</span>
-        <span class="coap-sensor-desc">External</span>
-        <span class="coap-sensor-state" id="mailbox_state">0</span>
+      <div class="coap-sensor">
+      <input type="text" id="serveraddr" value="coap://172.21.122.25" size="18" height="20px">
       </div>
       <div class="coap-sensor" id="Temperature">
         <span class="coap-sensor-pic">
@@ -93,14 +61,7 @@ body {
       <img id="logo_tizen_img" src="resources/tizen_logo.jpg" width="160px" height="60px">
 -->
       <input type="button" value="" onclick="onclickbuttonlogo(id)" class="buttonlogo" id="buttonlogo"/>
-
       </div>
-
-
-      <div class="coap-sensor">
-      <input type="text" id="serveraddr" value="coap://172.21.122.73" size="18" height="20px">
-      </div>
-
     </div>
 
     <div class="coap-devices" id="coap-devices">
@@ -108,46 +69,37 @@ body {
         <span class="coap-device-pic">
           <img id="l1_img" src="" data_on="resources/lightbulb_on.jpg" data_off="resources/lightbulb_off.jpg">
         </span>
-        <span class="coap-device-name">Light1</span>
-        <span class="coap-device-desc">Entrance</span>
+        <span class="coap-device-name">PushLight1</span>
+        <span class="coap-device-desc">Roof</span>
         <span class="coap-device-state" id="l1_state">1</span>
         <button class="coap-device-button" onclick="onclickbutton(id)" id="l1">On/Off</button>
       </div>
+      <div class="coap-device" id="W">
+        <span class="coap-device-pic">
+          <img id="W_img" src="" data_on="resources/wheel_on.png" data_off="resources/wheel_off.png">
+        </span>
+        <span class="coap-device-name">MillWheel</span>
+        <span class="coap-device-desc">Outside</span>
+        <span class="coap-device-state" id="W_state">1</span>
+        <button class="coap-device-button" onclick="onclickbutton(id)" id="W" >On/Off</button>
+      </div>    
       <div class="coap-device" id="l2">
         <span class="coap-device-pic">
           <img id="l2_img" src="" data_on="resources/lightbulb_on.jpg" data_off="resources/lightbulb_off.jpg">
         </span>
-        <span class="coap-device-name">Light2</span>
-        <span class="coap-device-desc">Kitchen</span>
+        <span class="coap-device-name">PushLight2</span>
+        <span class="coap-device-desc">Front</span>
         <span class="coap-device-state" id="l2_state">1</span>
-        <button class="coap-device-button" onclick="onclickbutton(id)" id="l2" >On/Off</button>
-      </div>    
-      <div class="coap-device" id="step">
-        <span class="coap-device-pic">
-          <img src="resources/windowblind_on.png">
-        </span>
-        <span class="coap-device-name">Stepper</span>
-        <span class="coap-device-desc">Kitchen</span>
-        <span class="coap-device-state" id="step_state">1</span>
-        <button class="coap-device-button" onclick="onclickbutton(id)" id="step">On/Off</button>
+        <button class="coap-device-button" onclick="onclickbutton(id)" id="l2">On/Off</button>
       </div>
-      <div class="coap-device" id="l4">
+      <div class="coap-device" id="l3">
         <span class="coap-device-pic">
-          <img id="l4_img" src="" data_on="resources/lightbulb_on.jpg" data_off="resources/lightbulb_off.jpg">
+          <img id="l3_img" src="" data_on="resources/lightbulb_on.jpg" data_off="resources/lightbulb_off.jpg">
         </span>
-        <span class="coap-device-name">PushLight4</span>
-        <span class="coap-device-desc">Room</span>
-        <span class="coap-device-state" id="l4_state">1</span>
-        <button class="coap-device-button" onclick="onclickbutton(id)" id="l4">On/Off</button>
-      </div>
-      <div class="coap-device" id="l5">
-        <span class="coap-device-pic">
-          <img id="l5_img" src="" data_on="resources/lightbulb_on.jpg" data_off="resources/lightbulb_off.jpg">
-        </span>
-        <span class="coap-device-name">PushLight5</span>
-        <span class="coap-device-desc">Garden</span>
-        <span class="coap-device-state" id="l5_state">1</span>
-        <button class="coap-device-button" onclick="onclickbutton(id)" id="l5">On/Off</button>
+        <span class="coap-device-name">PushLight3</span>
+        <span class="coap-device-desc">Entrance</span>
+        <span class="coap-device-state" id="l3_state">1</span>
+        <button class="coap-device-button" onclick="onclickbutton(id)" id="l3">On/Off</button>
       </div>
       <div class="coap-device" id="relai">
         <span class="coap-device-pic">
@@ -199,7 +151,7 @@ body {
 
 
 <script>
-var lightList = ["l1", "l2", "l3", "l4", "l5"];
+var lightList = ["l1", "l2", "l3"];
 var sensorList = ["T", "D", "M", "L"];
 var deviceIP = "coap://224.0.1.187";
 var deviceState = {};
@@ -346,21 +298,7 @@ function onclickbutton(id){
 function getSensorsState(){
     var value;
     var i;
-/*
-    for(i = 0; i < sensorList.length; i++)
-    {
-        updatedevicestate(sensorList[i]);
-    }
-    var currentState = updatedevicestate("b1");
-    updatedeviceimage("b1", currentState);
-    updatedevicestate("b2");
-    currentState = updatedevicestate("l4");
-    updatedeviceimage("l4", currentState);
-    currentState = updatedevicestate("l5");
-    updatedeviceimage("l5", currentState);
-    updatedevicestate("relai");
-    updatedevicestate("servo");
-*/
+
     var currentAllStates = getDeviceState("alldevices");
     var allDevicesArray = currentAllStates.split(";");
     for (var i = 0; i < allDevicesArray.length; i++)
@@ -382,13 +320,10 @@ function getSensorsState(){
     }
     updatedeviceimage("l1", deviceState["l1"]);
     updatedeviceimage("l2", deviceState["l2"]);
-    //updatedeviceimage("l3", deviceState["l3"]);
-    updatedeviceimage("l4", deviceState["l4"]);
-    updatedeviceimage("l5", deviceState["l5"]);
-    updatedeviceimage("b1", deviceState["b1"]);
-    updatedeviceimage("b2", deviceState["b2"]);
+    updatedeviceimage("l3", deviceState["l3"]);
+    updatedeviceimage("W", deviceState["W"]);
 
-    getandupdatedeviceimage("step", deviceState["step"]);
+    //getandupdatedeviceimage("step", deviceState["step"]);
 
     var now = new Date().toLocaleString();
     //now.format("dd/MM/yyyy hh:MM TT");
@@ -407,8 +342,9 @@ function applicationinit(){
     coap.setDevice(getServerAddr(), "servo", 90);
     pollingfunction();
 }
-applicationinit()
 
+
+applicationinit();
 
 </script>
 </body>
